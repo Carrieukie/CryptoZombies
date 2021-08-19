@@ -30,7 +30,11 @@ contract ZombieFactory {
         
         //map the zombies id to their owner
         zombieToOwner[id] = msg.sender;
+        
+        //increment zombie count
         ownerZombieCount[msg.sender]++;
+        
+        //emit an event
         emit NewZombie(id, _name, _dna);
     }
 
@@ -40,7 +44,9 @@ contract ZombieFactory {
     }
 
     function createRandomZombie(string _name) public {
+        //make sure that user only creates one Zombie
         require(ownerZombieCount[msg.sender] == 0);
+        //generate random DNA
         uint randDna = _generateRandomDna(_name);
         randDna = randDna - randDna % 100;
         _createZombie(_name, randDna);
